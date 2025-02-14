@@ -6,7 +6,7 @@ _Edition_: Swan Lake
 # Sanitation for OpenAPI specification
 
 This document records the sanitation done on top of the official OpenAPI specification from HubSpot CRM Engagements Email. 
-The OpenAPI specification is obtained from (TODO: Add source link).
+The OpenAPI specification is obtained from [Hubspot Github Public API Spec Collection](https://github.com/HubSpot/HubSpot-public-api-spec-collection/blob/main/PublicApiSpecs/CRM/Emails/Rollouts/424/v3/emails.json).
 These changes are done in order to improve the overall usability, and as workarounds for some known language limitations.
 
 1. Change the `url` property of the servers object
