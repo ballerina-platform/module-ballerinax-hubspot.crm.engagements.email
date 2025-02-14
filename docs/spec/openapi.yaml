@@ -33,6 +33,7 @@
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Read a batch of emails by internal ID, or unique property values",
+        "description" : "Read a batch of Objects identified by internal ID, or optionally any unique property value as specified by the `idProperty` query param. Control what is returned via the `properties` query param.",
         "operationId" : "post-/crm/v3/objects/emails/batch/read_read",
         "parameters" : [ {
           "name" : "archived",
@@ -292,6 +293,7 @@
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Archive a batch of emails by ID",
+        "description" : "Archive a batch of Objects identified by internal ID.",
         "operationId" : "post-/crm/v3/objects/emails/batch/archive_archive",
         "parameters" : [ ],
         "requestBody" : {
@@ -328,6 +330,7 @@
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Create a batch of emails",
+        "description" : "Create a batch of Objects with the given properties and return a copy of the objects, including the IDs.",
         "operationId" : "post-/crm/v3/objects/emails/batch/create_create",
         "parameters" : [ ],
         "requestBody" : {
@@ -380,6 +383,7 @@
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Update a batch of emails",
+        "description" : "Update a batch of Objects identified by internal ID.",
         "operationId" : "post-/crm/v3/objects/emails/batch/update_update",
         "parameters" : [ ],
         "requestBody" : {
@@ -578,6 +582,7 @@
       "post" : {
         "tags" : [ "Batch" ],
         "summary" : "Create or update a batch of emails by unique property values",
+        "description" : "Create or update a batch of Objects identified by unique property values. If an object with a matching unique property value exists, it will be updated. Otherwise, a new object will be created.",
         "operationId" : "post-/crm/v3/objects/emails/batch/upsert_upsert",
         "parameters" : [ ],
         "requestBody" : {
@@ -629,6 +634,7 @@
     "/search" : {
       "post" : {
         "tags" : [ "Search" ],
+        "description" : "Search for emails in your HubSpot account. Use the `filterGroups` parameter to specify the properties and values to filter for.",
         "operationId" : "post-/crm/v3/objects/emails/search_doSearch",
         "parameters" : [ ],
         "requestBody" : {

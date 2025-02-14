@@ -39,6 +39,10 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The specification originally uses `"date-time"` which is unsupported by the openapi generator tool. This change to `"datetime"` ensures it is handled correctly.
 
+4. Update the API descriptions
+
+- **Reason**: To make them more meaningful
+
 ## OpenAPI cli command
 
 The following command was used to generate the Ballerina client from the OpenAPI specification. The command should be executed from the repository root directory.

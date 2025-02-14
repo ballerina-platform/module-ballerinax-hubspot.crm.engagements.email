@@ -95,4 +95,3 @@ public function testCreateEmailEp() returns error? {
     // Store the id of the created email for use in other testcases
     testEmailId = response.id;
 }
-
