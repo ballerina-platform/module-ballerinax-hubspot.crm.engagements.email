@@ -11,19 +11,19 @@ These changes are done in order to improve the overall usability, and as workaro
 
 1. Change the `url` property of the servers object
 - **Original**:
-```https://api.hubapi.com```
+`https://api.hubapi.com`
 
 - **Updated**:
-```https://api.hubapi.com/crm/v3/objects/emails```
+`https://api.hubapi.com/crm/v3/objects/emails`
 
 - **Reason**: This change of adding the common prefix `crm/v3/objects/emails` to the base url makes it easier to access endpoints using the client.
 
 2. Update the API Paths
-- **Original**: Paths included common prefix above in each endpoint. (eg: ```/crm/v3/objects/emails/search```)
+- **Original**: Paths included common prefix above in each endpoint. (eg: `/crm/v3/objects/emails/search`)
 
 - **Updated**: Common prefix is now removed from the endpoints as it is included in the base URL.
-  - **Original**: ```/crm/v3/objects/emails/search```
-  - **Updated**: ```/search```
+  - **Original**: `/crm/v3/objects/emails/search`
+  - **Updated**: `/search`
 
 - **Reason**:  This change simplifies the API paths, making them shorter and more readable.
 
