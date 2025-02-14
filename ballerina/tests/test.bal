@@ -22,8 +22,7 @@ final string clientId = os:getEnv("HUBSPOT_CLIENT_ID");
 final string clientSecret = os:getEnv("HUBSPOT_CLIENT_SECRET");
 final string refreshToken = os:getEnv("HUBSPOT_REFRESH_TOKEN");
 
-// isLiveServer is set to false by default, set to true in Config.toml
-configurable boolean isLiveServer = false;
+configurable boolean isLiveServer = os:getEnv("IS_LIVE_SERVER") == "true";
 configurable string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/emails" : "http://localhost:8081";
 
 final Client hubspotClient = check initClient();
