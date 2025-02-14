@@ -52,7 +52,6 @@ string testEmailId = "";
 @test:Config {
     groups: ["mock_tests"]
 }
-
 public function testCreateEmailEp() returns error? {
     // Create a new email. Will throw error if the response type is not SimplePublicObject
     SimplePublicObject response = check hubspotClient->/.post({
