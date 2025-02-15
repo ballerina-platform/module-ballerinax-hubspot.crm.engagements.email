@@ -96,7 +96,7 @@
     "/{emailId}" : {
       "get" : {
         "tags" : [ "Basic" ],
-        "summary" : "Read",
+        "summary" : "Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.",
         "description" : "Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.",
         "operationId" : "get-/crm/v3/objects/emails/{emailId}_getById",
         "parameters" : [ {
@@ -196,7 +196,7 @@
       },
       "delete" : {
         "tags" : [ "Basic" ],
-        "summary" : "Archive",
+        "summary" : "Move an Object identified by `{emailId}` to the recycling bin.",
         "description" : "Move an Object identified by `{emailId}` to the recycling bin.",
         "operationId" : "delete-/crm/v3/objects/emails/{emailId}_archive",
         "parameters" : [ {
@@ -230,7 +230,7 @@
       },
       "patch" : {
         "tags" : [ "Basic" ],
-        "summary" : "Update",
+        "summary" : "Perform a partial update of an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param. Provided property values will be overwritten. Read-only and non-existent properties will be ignored. Properties values can be cleared by passing an empty string.",
         "description" : "Perform a partial update of an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param. Provided property values will be overwritten. Read-only and non-existent properties will be ignored. Properties values can be cleared by passing an empty string.",
         "operationId" : "patch-/crm/v3/objects/emails/{emailId}_update",
         "parameters" : [ {
@@ -292,7 +292,7 @@
     "/batch/archive" : {
       "post" : {
         "tags" : [ "Batch" ],
-        "summary" : "Archive a batch of emails by ID",
+        "summary" : "Archive a batch of Objects identified by internal ID.",
         "description" : "Archive a batch of Objects identified by internal ID.",
         "operationId" : "post-/crm/v3/objects/emails/batch/archive_archive",
         "parameters" : [ ],
@@ -329,7 +329,7 @@
     "/batch/create" : {
       "post" : {
         "tags" : [ "Batch" ],
-        "summary" : "Create a batch of emails",
+        "summary" : "Create a batch of Objects with the given properties and return a copy of the objects, including the IDs.",
         "description" : "Create a batch of Objects with the given properties and return a copy of the objects, including the IDs.",
         "operationId" : "post-/crm/v3/objects/emails/batch/create_create",
         "parameters" : [ ],
@@ -382,7 +382,7 @@
     "/batch/update" : {
       "post" : {
         "tags" : [ "Batch" ],
-        "summary" : "Update a batch of emails",
+        "summary" : "Update a batch of Objects identified by internal ID.",
         "description" : "Update a batch of Objects identified by internal ID.",
         "operationId" : "post-/crm/v3/objects/emails/batch/update_update",
         "parameters" : [ ],
@@ -435,7 +435,7 @@
     "/" : {
       "get" : {
         "tags" : [ "Basic" ],
-        "summary" : "List",
+        "summary" : "Read a page of emails. Control what is returned via the `properties` query param.",
         "description" : "Read a page of emails. Control what is returned via the `properties` query param.",
         "operationId" : "get-/crm/v3/objects/emails_getPage",
         "parameters" : [ {
@@ -538,7 +538,7 @@
       },
       "post" : {
         "tags" : [ "Basic" ],
-        "summary" : "Create",
+        "summary" : "Create a email with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard emails is provided.",
         "description" : "Create a email with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard emails is provided.",
         "operationId" : "post-/crm/v3/objects/emails_create",
         "parameters" : [ ],
@@ -581,7 +581,7 @@
     "/batch/upsert" : {
       "post" : {
         "tags" : [ "Batch" ],
-        "summary" : "Create or update a batch of emails by unique property values",
+        "summary" : "Create or update a batch of Objects identified by unique property values. If an object with a matching unique property value exists, it will be updated. Otherwise, a new object will be created.",
         "description" : "Create or update a batch of Objects identified by unique property values. If an object with a matching unique property value exists, it will be updated. Otherwise, a new object will be created.",
         "operationId" : "post-/crm/v3/objects/emails/batch/upsert_upsert",
         "parameters" : [ ],
@@ -634,6 +634,7 @@
     "/search" : {
       "post" : {
         "tags" : [ "Search" ],
+        "summary": "Search for emails in your HubSpot account. Use the `filterGroups` parameter to specify the properties and values to filter for.",
         "description" : "Search for emails in your HubSpot account. Use the `filterGroups` parameter to specify the properties and values to filter for.",
         "operationId" : "post-/crm/v3/objects/emails/search_doSearch",
         "parameters" : [ ],

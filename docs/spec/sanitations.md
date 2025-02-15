@@ -1,6 +1,6 @@
 _Author_:  Thakshaka Rathnayake \
 _Created_: 2025/02/14 \
-_Updated_: 2025/02/14 \
+_Updated_: 2025/02/15 \
 _Edition_: Swan Lake
 
 # Sanitation for OpenAPI specification
@@ -39,7 +39,7 @@ These changes are done in order to improve the overall usability, and as workaro
 
 - **Reason**:  The specification originally uses `"date-time"` which is unsupported by the openapi generator tool. This change to `"datetime"` ensures it is handled correctly.
 
-4. Update the API descriptions
+4. Update the API summaries and descriptions
 
 - **Reason**: To make them more meaningful
 
