@@ -55,6 +55,17 @@ public type BatchResponseSimplePublicObject record {
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
+public type BatchResponseSimplePublicObjectWithErrors record {
+    string completedAt;
+    string requestedAt?;
+    string startedAt;
+    record {|string...;|} links?;
+    SimplePublicObject[] results;
+    "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
+    int:Signed32 numErrors?;
+    StandardError[] errors?;
+};
+
 public type FilterGroup record {
     Filter[] filters;
 };
@@ -214,17 +225,6 @@ public type SimplePublicObjectBatchInputUpsert record {
     string objectWriteTraceId?;
     string id;
     record {|string...;|} properties;
-};
-
-public type BatchResponseSimplePublicObjectWithErrors record {
-    string completedAt;
-    int:Signed32 numErrors?;
-    string requestedAt?;
-    string startedAt;
-    record {|string...;|} links?;
-    SimplePublicObject[] results;
-    StandardError[] errors?;
-    "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
 # Proxy server configurations to be used with the HTTP client endpoint.
