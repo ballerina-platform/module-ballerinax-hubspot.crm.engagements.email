@@ -23,6 +23,9 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 configurable boolean isLiveServer = ?;
 
+string testEmailId = "";
+string testBatchId = "";
+
 configurable string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/emails" : "http://localhost:9090";
 
 final Client hubspot = check initClient();
@@ -43,11 +46,6 @@ isolated function initClient() returns Client|error {
         }
     }, serviceUrl);
 }
-
-string testEmailId = "";
-string testBatchId = "";
-
-// Email
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
@@ -132,8 +130,6 @@ public function testDeleteEmailEp() returns error? {
     // Check if the response status is 204 (No Content)
     test:assertTrue(response.statusCode == 204);
 }
-
-// Batch
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
