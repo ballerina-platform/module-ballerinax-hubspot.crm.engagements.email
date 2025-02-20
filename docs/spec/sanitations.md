@@ -1,4 +1,4 @@
-_Author_:  Thakshaka Rathnayake \
+_Author_:  @Thakshaka \
 _Created_: 2025/02/14 \
 _Updated_: 2025/02/15 \
 _Edition_: Swan Lake
