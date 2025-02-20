@@ -227,7 +227,7 @@ public function testArchiveBatchEp() returns error? {
     });
 
     // Check if the response status is 204 (No Content)
-    test:assertTrue(response.statusCode == 204);
+    test:assertEquals(response.statusCode, 204);
 }
 
 @test:Config {
