@@ -14,18 +14,21 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/http;
 import ballerina/oauth2;
 import ballerina/test;
-import ballerina/http;
 
 configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 configurable boolean isLiveServer = ?;
 
+string testEmailId = "";
+string testBatchId = "";
+
 configurable string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/emails" : "http://localhost:9090";
 
-final Client hubspotClient = check initClient();
+final Client hubspot = check initClient();
 
 isolated function initClient() returns Client|error {
     if isLiveServer {
@@ -44,27 +47,22 @@ isolated function initClient() returns Client|error {
     }, serviceUrl);
 }
 
-string testEmailId = "";
-string testBatchId = "";
-
-// Email
-
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 public function testCreateEmailEp() returns error? {
     // Create a new email
-    SimplePublicObject response = check hubspotClient->/.post({
-        "associations": [
+    SimplePublicObject response = check hubspot->/.post({
+        associations: [
             {
-            "types": [],
-            "to": {
-                "id": "84058501871"
-            }
+                types: [],
+                to: {
+                    id: "84058501871"
+                }
             }
         ],
-        "objectWriteTraceId": "string",
-        "properties": {
+        objectWriteTraceId: "string",
+        properties: {
             "hs_timestamp": "2025-10-30T03:30:17.883Z",
             "hubspot_owner_id": "77405866",
             "hs_email_direction": "EMAIL",
@@ -88,7 +86,7 @@ public function testCreateEmailEp() returns error? {
 }
 public function testGetAllEmailsEp() returns error? {
     // Retrieve all emails
-    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get();
+    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get();
     test:assertTrue(response.results.length() > 0, "No emails found");
 }
 
@@ -101,7 +99,7 @@ public function testGetAEmailEp() returns error? {
     string[] properties = ["hs_email_subject"];
 
     // Retrieve test email
-    SimplePublicObjectWithAssociations response = check hubspotClient->/[testEmailId].get(properties=properties);
+    SimplePublicObjectWithAssociations response = check hubspot->/[testEmailId].get(properties = properties);
     test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina", "Incorrect email subject");
 }
 
@@ -111,14 +109,14 @@ public function testGetAEmailEp() returns error? {
 }
 public function testUpdateEmailEp() returns error? {
     // Update email properties
-    SimplePublicObject response = check hubspotClient->/[testEmailId].patch({
-        "properties": {
-            "hs_email_subject":"Let's talk about Ballerina Language"
+    SimplePublicObject response = check hubspot->/[testEmailId].patch({
+        properties: {
+            "hs_email_subject": "Let's talk about Ballerina Language"
         }
     });
 
     // Check if the response contains the updated email subject
-    test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina Language", "Incorrect email subject");      
+    test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina Language", "Incorrect email subject");
 }
 
 @test:Config {
@@ -127,42 +125,40 @@ public function testUpdateEmailEp() returns error? {
 }
 public function testDeleteEmailEp() returns error? {
     // Delete an email
-    http:Response response = check hubspotClient->/[testEmailId].delete();
+    http:Response response = check hubspot->/[testEmailId].delete();
 
     // Check if the response status is 204 (No Content)
     test:assertTrue(response.statusCode == 204);
 }
-
-// Batch
 
 @test:Config {
     groups: ["live_tests", "mock_tests"]
 }
 public function testCreateBatchEp() returns error? {
     // Create a new batch
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/create.post({
-        "inputs": [
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspot->/batch/create.post({
+        inputs: [
             {
-            "associations": [
-                {
-                "types": [
+                associations: [
                     {
-                    "associationCategory": "HUBSPOT_DEFINED",
-                    "associationTypeId": 198
+                        types: [
+                            {
+                                "associationCategory": "HUBSPOT_DEFINED",
+                                "associationTypeId": 198
+                            }
+                        ],
+                        to: {
+                            "id": "84058501871"
+                        }
                     }
                 ],
-                "to": {
-                    "id": "84058501871"
+                properties: {
+                    "hs_email_attached_video_opened": "false",
+                    "hs_email_attached_video_watched": "false",
+                    "hs_email_direction": "EMAIL",
+                    "hs_lastmodifieddate": "2025-02-18T09:49:46.220Z",
+                    "hs_timestamp": "2025-02-18T09:49:46.220Z"
                 }
-                }
-            ],
-            "properties": {
-                "hs_email_attached_video_opened": "false",
-                "hs_email_attached_video_watched": "false",
-                "hs_email_direction": "EMAIL",
-                "hs_lastmodifieddate": "2025-02-18T09:49:46.220Z",
-                "hs_timestamp": "2025-02-18T09:49:46.220Z"
-            }
             }
         ]
     });
@@ -182,14 +178,14 @@ public function testReadBatchEp() returns error? {
     string[] properties = ["hs_email_direction"];
     string[] propertiesWithHistory = ["hs_email_direction"];
 
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/read.post({
-        "propertiesWithHistory": propertiesWithHistory,
-        "inputs": [
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspot->/batch/read.post({
+        propertiesWithHistory: propertiesWithHistory,
+        inputs: [
             {
-            "id": testBatchId
+                id: testBatchId
             }
         ],
-        "properties": properties
+        properties: properties
     });
 
     test:assertTrue(response.results[0].properties["hs_email_direction"] == "EMAIL", "Incorrect email direction");
@@ -200,15 +196,15 @@ public function testReadBatchEp() returns error? {
     dependsOn: [testCreateBatchEp]
 }
 
-    public function testUpdateBatchEp() returns error? {
+public function testUpdateBatchEp() returns error? {
     // Update batch properties
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/update.post({
-        "inputs": [
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspot->/batch/update.post({
+        inputs: [
             {
-            "id": testBatchId,
-            "properties": {
-                "hs_email_direction": "FORWARDED_EMAIL"
-            }
+                id: testBatchId,
+                properties: {
+                    "hs_email_direction": "FORWARDED_EMAIL"
+                }
             }
         ]
     });
@@ -222,10 +218,10 @@ public function testReadBatchEp() returns error? {
     dependsOn: [testCreateBatchEp]
 }
 public function testArchiveBatchEp() returns error? {
-    http:Response response = check hubspotClient->/batch/archive.post({
-        "inputs": [
+    http:Response response = check hubspot->/batch/archive.post({
+        inputs: [
             {
-            "id": testBatchId
+                id: testBatchId
             }
         ]
     });
@@ -241,7 +237,7 @@ public function testArchiveBatchEp() returns error? {
 
 public function testSearchEmailsEp() returns error? {
     // Search for emails
-    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubspotClient->/search.post({});
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubspot->/search.post({});
 
     test:assertTrue(response.total > 0, "No emails found");
 }
