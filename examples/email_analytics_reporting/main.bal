@@ -32,13 +32,13 @@ public function main() returns error? {
         credentialBearer: oauth2:POST_BODY_BEARER
     };
 
-    hsceemail:Client hubspotClient = check new ({auth});
+    hsceemail:Client hubspot = check new ({auth});
 
     // Define the properties to be fetched
     string[] properties = ["hs_email_status"];
 
     // Get all email engagements
-    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get(properties=properties);
+    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties=properties);
 
     // Initialize analytics counters
     int totalSent = 0;

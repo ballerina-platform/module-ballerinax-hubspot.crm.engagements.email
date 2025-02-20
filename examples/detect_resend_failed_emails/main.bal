@@ -32,13 +32,13 @@ public function main() returns error? {
         credentialBearer: oauth2:POST_BODY_BEARER
     };
 
-    hsceemail:Client hubspotClient = check new ({auth});
+    hsceemail:Client hubspot = check new ({auth});
 
     // Define properties to retrieve (fetch email status)
     string[] properties = ["hs_email_status", "hs_email_text", "hs_email_subject", "hs_email_headers"];
 
     // Get all emails
-    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get(properties=properties);
+    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties=properties);
 
     foreach hsceemail:SimplePublicObject email in response.results {
         string emailStatus = email?.properties["hs_email_status"] ?: "";
@@ -50,7 +50,7 @@ public function main() returns error? {
             string emailHeaders = email?.properties["hs_email_headers"] ?: "";
 
             // Attempt to resend the email
-            hsceemail:SimplePublicObject newEmail = check hubspotClient->/.post({
+            hsceemail:SimplePublicObject newEmail = check hubspot->/.post({
                 "associations": [
                     {
                     "types": [],

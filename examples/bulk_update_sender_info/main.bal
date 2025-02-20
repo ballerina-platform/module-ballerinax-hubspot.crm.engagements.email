@@ -16,11 +16,11 @@ public function main() returns error? {
         credentialBearer: oauth2:POST_BODY_BEARER // This line should be added to create auth object.
     };
 
-    hsceemail:Client hubspotClient = check new ({auth});
+    hsceemail:Client hubspot = check new ({auth});
 
     // Get all emails
     string[] properties = ["hs_email_status"];
-    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get(properties=properties);
+    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties=properties);
 
     final string newSenderEmailAddress = "new_sender_address@example.com";
     final string newSenderFirstName = "SenderFirst";
@@ -39,7 +39,7 @@ public function main() returns error? {
                 }
             }`;
 
-            hsceemail:SimplePublicObject updated = check hubspotClient->/[email.id].patch({
+            hsceemail:SimplePublicObject updated = check hubspot->/[email.id].patch({
                 "properties": {
                     "hs_email_headers": updatedHeaderInfo
                 }
