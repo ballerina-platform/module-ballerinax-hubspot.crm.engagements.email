@@ -25,7 +25,7 @@ configurable boolean isLiveServer = ?;
 
 configurable string serviceUrl = isLiveServer ? "https://api.hubapi.com/crm/v3/objects/emails" : "http://localhost:9090";
 
-final Client hubspotClient = check initClient();
+final Client hubspot = check initClient();
 
 isolated function initClient() returns Client|error {
     if isLiveServer {
@@ -54,7 +54,7 @@ string testBatchId = "";
 }
 public function testCreateEmailEp() returns error? {
     // Create a new email
-    SimplePublicObject response = check hubspotClient->/.post({
+    SimplePublicObject response = check hubspot->/.post({
         "associations": [
             {
             "types": [],
@@ -88,7 +88,7 @@ public function testCreateEmailEp() returns error? {
 }
 public function testGetAllEmailsEp() returns error? {
     // Retrieve all emails
-    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspotClient->/.get();
+    CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get();
     test:assertTrue(response.results.length() > 0, "No emails found");
 }
 
@@ -101,7 +101,7 @@ public function testGetAEmailEp() returns error? {
     string[] properties = ["hs_email_subject"];
 
     // Retrieve test email
-    SimplePublicObjectWithAssociations response = check hubspotClient->/[testEmailId].get(properties=properties);
+    SimplePublicObjectWithAssociations response = check hubspot->/[testEmailId].get(properties=properties);
     test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina", "Incorrect email subject");
 }
 
@@ -111,7 +111,7 @@ public function testGetAEmailEp() returns error? {
 }
 public function testUpdateEmailEp() returns error? {
     // Update email properties
-    SimplePublicObject response = check hubspotClient->/[testEmailId].patch({
+    SimplePublicObject response = check hubspot->/[testEmailId].patch({
         "properties": {
             "hs_email_subject":"Let's talk about Ballerina Language"
         }
@@ -127,7 +127,7 @@ public function testUpdateEmailEp() returns error? {
 }
 public function testDeleteEmailEp() returns error? {
     // Delete an email
-    http:Response response = check hubspotClient->/[testEmailId].delete();
+    http:Response response = check hubspot->/[testEmailId].delete();
 
     // Check if the response status is 204 (No Content)
     test:assertTrue(response.statusCode == 204);
@@ -140,7 +140,7 @@ public function testDeleteEmailEp() returns error? {
 }
 public function testCreateBatchEp() returns error? {
     // Create a new batch
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/create.post({
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspot->/batch/create.post({
         "inputs": [
             {
             "associations": [
@@ -182,7 +182,7 @@ public function testReadBatchEp() returns error? {
     string[] properties = ["hs_email_direction"];
     string[] propertiesWithHistory = ["hs_email_direction"];
 
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/read.post({
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspot->/batch/read.post({
         "propertiesWithHistory": propertiesWithHistory,
         "inputs": [
             {
@@ -202,7 +202,7 @@ public function testReadBatchEp() returns error? {
 
     public function testUpdateBatchEp() returns error? {
     // Update batch properties
-    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/update.post({
+    BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspot->/batch/update.post({
         "inputs": [
             {
             "id": testBatchId,
@@ -222,7 +222,7 @@ public function testReadBatchEp() returns error? {
     dependsOn: [testCreateBatchEp]
 }
 public function testArchiveBatchEp() returns error? {
-    http:Response response = check hubspotClient->/batch/archive.post({
+    http:Response response = check hubspot->/batch/archive.post({
         "inputs": [
             {
             "id": testBatchId
@@ -241,7 +241,7 @@ public function testArchiveBatchEp() returns error? {
 
 public function testSearchEmailsEp() returns error? {
     // Search for emails
-    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubspotClient->/search.post({});
+    CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubspot->/search.post({});
 
     test:assertTrue(response.total > 0, "No emails found");
 }
