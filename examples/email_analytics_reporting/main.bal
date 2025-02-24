@@ -50,14 +50,22 @@ public function main() returns error? {
         string emailStatus = email?.properties["hs_email_status"] ?: "";
 
         // Update counters based on email status
-        if emailStatus == "SENT" {
-            totalSent += 1;
-        } else if emailStatus == "BOUNCED" {
-            totalBounced += 1;
-        } else if emailStatus == "FAILED" {
-            totalFailed += 1;
-        } else if emailStatus == "SCHEDULED" {
-            totalScheduled += 1;
+        match emailStatus {
+            "SENT" => {
+                totalSent = totalSent + 1;
+            }
+            "BOUNCED" => {
+                totalBounced = totalBounced + 1;
+            }
+            "FAILED" => {
+                totalFailed = totalFailed + 1;
+            }
+            "SCHEDULED" => {
+                totalScheduled = totalScheduled + 1;
+            }
+            _ => {
+                // Ignore other statuses
+            }
         }
     }
 
