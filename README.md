@@ -174,16 +174,16 @@ Now, utilize the available connector operations. A sample usecase is shown below
 ```ballerina
 public function main() returns error? {
     hsceemail:BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors response = check hubspotClient->/batch/read.post({
-        "propertiesWithHistory": [
+        propertiesWithHistory: [
             "string"
         ],
-        "idProperty": "string",
-        "inputs": [
+        idProperty: "string",
+        inputs: [
             {
-            "id": testBatchId
+            id: testBatchId
             }
         ],
-        "properties": [
+        properties: [
             "string"
         ]
     });
