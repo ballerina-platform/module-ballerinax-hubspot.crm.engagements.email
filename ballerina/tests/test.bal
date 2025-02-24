@@ -77,7 +77,7 @@ public function testCreateEmailEp() returns error? {
     testEmailId = response.id;
 
     // Check if the response contains the created email
-    test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina", "Incorrect email subject");
+    test:assertEquals(response?.properties["hs_email_subject"], "Let's talk about Ballerina", msg = "Incorrect email subject");
 }
 
 @test:Config {
@@ -100,7 +100,7 @@ public function testGetAEmailEp() returns error? {
 
     // Retrieve test email
     SimplePublicObjectWithAssociations response = check hubspot->/[testEmailId].get(properties = properties);
-    test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina", "Incorrect email subject");
+    test:assertEquals(response?.properties["hs_email_subject"], "Let's talk about Ballerina", msg = "Incorrect email subject");
 }
 
 @test:Config {
@@ -116,7 +116,7 @@ public function testUpdateEmailEp() returns error? {
     });
 
     // Check if the response contains the updated email subject
-    test:assertTrue(response?.properties["hs_email_subject"] == "Let's talk about Ballerina Language", "Incorrect email subject");
+    test:assertEquals(response?.properties["hs_email_subject"], "Let's talk about Ballerina Language", msg = "Incorrect email subject");
 }
 
 @test:Config {
@@ -128,7 +128,7 @@ public function testDeleteEmailEp() returns error? {
     http:Response response = check hubspot->/[testEmailId].delete();
 
     // Check if the response status is 204 (No Content)
-    test:assertTrue(response.statusCode == 204);
+    test:assertEquals(response.statusCode, 204);
 }
 
 @test:Config {
@@ -166,7 +166,7 @@ public function testCreateBatchEp() returns error? {
     // Store the id of the created batch for use in other testcases
     testBatchId = response.results[0].id;
 
-    test:assertTrue(response.results[0].properties["hs_email_direction"] == "EMAIL", "Incorrect email direction");
+    test:assertEquals(response.results[0].properties["hs_email_direction"], "EMAIL", msg = "Incorrect email direction");
 }
 
 @test:Config {
@@ -188,7 +188,7 @@ public function testReadBatchEp() returns error? {
         properties: properties
     });
 
-    test:assertTrue(response.results[0].properties["hs_email_direction"] == "EMAIL", "Incorrect email direction");
+    test:assertEquals(response.results[0].properties["hs_email_direction"], "EMAIL", msg = "Incorrect email direction");
 }
 
 @test:Config {
@@ -210,7 +210,7 @@ public function testUpdateBatchEp() returns error? {
     });
 
     // Check if the response contains the updated email direction
-    test:assertTrue(response.results[0].properties["hs_email_direction"] == "FORWARDED_EMAIL", "Incorrect email direction");
+    test:assertEquals(response.results[0].properties["hs_email_direction"], "FORWARDED_EMAIL", msg = "Incorrect email direction");
 }
 
 @test:Config {
