@@ -1,4 +1,4 @@
-## Detect and Resend Failed Emails
+## Detect and resend failed emails
 
 This use case demonstrates how the HubSpot CRM Engagements Email API can be used to identify and resend emails that have failed or bounced. By leveraging the API, this approach automates the detection and resending process, ensuring important communications reach their intended recipients without manual intervention.
 
