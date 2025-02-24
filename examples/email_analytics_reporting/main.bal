@@ -38,7 +38,7 @@ public function main() returns error? {
     string[] properties = ["hs_email_status"];
 
     // Get all email engagements
-    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties=properties);
+    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties = properties);
 
     // Initialize analytics counters
     int totalSent = 0;
