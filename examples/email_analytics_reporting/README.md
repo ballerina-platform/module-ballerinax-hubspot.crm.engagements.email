@@ -1,4 +1,4 @@
-## Email Analytics and Reporting
+## Email analytics and reporting
 
 This use case demonstrates how the HubSpot CRM Engagements Email API can be used to track and analyze email performance. By retrieving key email metrics such as sent, bounced, failed, and scheduled emails, this approach helps businesses monitor email delivery status and optimize their communication strategies.
 

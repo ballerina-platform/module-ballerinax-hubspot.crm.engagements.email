@@ -1,4 +1,4 @@
-## Bulk Update Sender Information in Scheduled Emails
+## Bulk update sender information in scheduled emails
 
 This use case demonstrates how the HubSpot CRM Engagements Email API can be used to update the sender information for all scheduled emails. By leveraging the endpoints of the HubSpot CRM Engagements Email API, this approach automates a task that would otherwise be time-consuming if done manually.
 
