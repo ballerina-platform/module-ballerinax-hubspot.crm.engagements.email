@@ -61,8 +61,7 @@ public function main() returns error? {
             });
 
             io:println(string `Updated email ${updated.id}'s sender address to ${newSenderEmailAddress}`);
-        } else {
-            io:println(string `Email ${email.id} is not SCHEDULED. Skipping...`);
         }
+        io:println(string `Email ${email.id} is not SCHEDULED. Skipping...`);
     }
 }
