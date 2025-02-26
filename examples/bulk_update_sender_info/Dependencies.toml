@@ -309,7 +309,7 @@ modules = [
 ]
 
 [[package]]
-org = "thakshakar"
+org = "wso2"
 name = "bulk_update_reply_to_email"
 version = "0.1.0"
 dependencies = [
@@ -319,6 +319,6 @@ dependencies = [
 	{org = "ballerinax", name = "hubspot.crm.engagements.email"}
 ]
 modules = [
-	{org = "thakshakar", packageName = "bulk_update_reply_to_email", moduleName = "bulk_update_reply_to_email"}
+	{org = "wso2", packageName = "bulk_update_reply_to_email", moduleName = "bulk_update_reply_to_email"}
 ]
 
