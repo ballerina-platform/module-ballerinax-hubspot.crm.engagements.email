@@ -162,7 +162,7 @@ import ballerina/oauth2;
          credentialBearer: oauth2:POST_BODY_BEARER
     };
 
-    final hsceemail:Client hsceemailClient = check new ({auth});
+    final hsceemail:Client hubspot = check new ({auth});
     ```
 
 ### Step 3: Invoke the connector operation
