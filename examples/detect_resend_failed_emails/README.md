@@ -6,7 +6,7 @@ This use case demonstrates how the HubSpot CRM Engagements Email API can be used
 
 ### 1. Setup Hubspot developer account
 
-Refer to the [Setup guide](../../ballerina/Package.md#setup-guide) to obtain necessary credentials (client id, client secret, tokens).
+Refer to the [Setup guide](https://github.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/blob/main/README.md#setup-guide) to obtain necessary credentials (client id, client secret, tokens).
 
 ### 2. Configuration
 
