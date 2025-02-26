@@ -16,7 +16,7 @@ The `ballerinax/hubspot.crm.engagements.email` package offers APIs to connect an
 
 To use the HubSpot CRM Engagements Email connector, you must have access to the HubSpot API through a HubSpot developer account and a HubSpot App under it. Therefore you need to register for a developer account at HubSpot if you don't have one already.
 
-### Step 1: Create/Login to a HubSpot Developer Account
+### Step 1: Create/Login to a HubSpot developer account
 
 If you have an account already, go to the [HubSpot developer portal](https://app.hubspot.com/)
 
@@ -28,7 +28,7 @@ Within app developer accounts, you can create a [developer test account](https:/
 
 > **Note:** These accounts are only for development and testing purposes. In production you should not use developer test accounts.
 
-1. Go to Test Account section from the left sidebar.
+1. Go to `Test Account` section from the left sidebar.
 
    ![Hubspot Developer Portal](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/main/docs/setup/resources/test_acc_1.png) 
 
@@ -40,7 +40,7 @@ Within app developer accounts, you can create a [developer test account](https:/
 
    ![Hubspot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/main/docs/setup/resources/test_acc_3.png)
 
-### Step 3: Create a HubSpot App under your account.
+### Step 3: Create a HubSpot App
 
 1. In your developer account, navigate to the "Apps" section. Click on "Create App"
 
@@ -48,13 +48,13 @@ Within app developer accounts, you can create a [developer test account](https:/
 
 2. Provide the necessary details, including the app name and description.
 
-### Step 4: Configure the Authentication Flow.
+### Step 4: Configure the authentication flow.
 
-1. Move to the Auth Tab. (Second tab next to App Info)
+1. Move to the `Auth` Tab. (Second tab next to App Info)
 
    ![Hubspot Developer Config Auth](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/main/docs/setup/resources/create_app_2.png )
 
-2. In the Scopes section, add the following scope for your app using the "Add new scope" button.
+2. In the `Scopes` section, add the following scope for your app using the "Add new scope" button.
 
    * `crm.objects.contacts.read`
    * `crm.objects.contacts.write`
@@ -66,13 +66,13 @@ Within app developer accounts, you can create a [developer test account](https:/
 
    ![Hubspot Create Developer App](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/main/docs/setup/resources/create_app_final.png )
 
-### Step 5: Get your Client ID and Client Secret
+### Step 5: Get your client id and client secret
 
 - Navigate to the Auth section of your app. Make sure to save the provided Client ID and Client Secret.
 
    ![Hubspot Get Credentials](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/main/docs/setup/resources/get_credentials.png )
 
-### Step 6: Setup Authentication Flow
+### Step 6: Setup authentication flow
 
 Before proceeding with the Quickstart, ensure you have obtained the Access Token using the following steps:
 
