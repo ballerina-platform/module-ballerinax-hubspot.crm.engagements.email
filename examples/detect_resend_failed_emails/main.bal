@@ -68,8 +68,7 @@ public function main() returns error? {
             });
 
             io:println(string `Resent email with new ID: ${newEmail.id}, Subject: ${emailSubject}`);
-        } else {
-            io:println(string `Email ${email.id} is not FAILED or BOUNCED. Skipping...`);
         }
+        io:println(string `Email ${email.id} is not FAILED or BOUNCED. Skipping...`);
     }
 }
