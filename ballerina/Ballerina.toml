@@ -14,9 +14,3 @@ observabilityIncluded = true
 
 [platform.java21]
 graalvmCompatible = true
-
-[[dependency]]
-org = "ballerinax"
-name = "hubspot.crm.engagements.email"
-version = "1.0.0"
-repository = "local"
