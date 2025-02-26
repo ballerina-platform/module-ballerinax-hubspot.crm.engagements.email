@@ -40,7 +40,7 @@ Within app developer accounts, you can create a [developer test account](https:/
 
    ![Hubspot Developer Test Account](https://raw.githubusercontent.com/ballerina-platform/module-ballerinax-hubspot.crm.engagements.email/main/docs/setup/resources/test_acc_3.png)
 
-### Step 3: Create a HubSpot App
+### Step 3: Create a HubSpot app
 
 1. In your developer account, navigate to the "Apps" section. Click on "Create App"
 
