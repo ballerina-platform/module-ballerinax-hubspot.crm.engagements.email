@@ -22,16 +22,16 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
+hsceemail:OAuth2RefreshTokenGrantConfig auth = {
+    clientId,
+    clientSecret,
+    refreshToken,
+    credentialBearer: oauth2:POST_BODY_BEARER
+};
+
+hsceemail:Client hubspot = check new ({auth});
+
 public function main() returns error? {
-
-    hsceemail:OAuth2RefreshTokenGrantConfig auth = {
-        clientId,
-        clientSecret,
-        refreshToken,
-        credentialBearer: oauth2:POST_BODY_BEARER
-    };
-
-    hsceemail:Client hubspot = check new ({auth});
 
     // Define properties to retrieve (fetch email status)
     string[] properties = ["hs_email_status", "hs_email_text", "hs_email_subject", "hs_email_headers"];
@@ -44,9 +44,9 @@ public function main() returns error? {
 
         // Resend the email if it has failed or bounced
         if emailStatus == "FAILED" || emailStatus == "BOUNCED" {
-            string? emailText = email?.properties["hs_email_text"];
-            string? emailSubject = email?.properties["hs_email_subject"];
-            string? emailHeaders = email?.properties["hs_email_headers"];
+            string emailText = email?.properties["hs_email_text"] ?: "";
+            string emailSubject = email?.properties["hs_email_subject"] ?: "";
+            string emailHeaders = email?.properties["hs_email_headers"] ?: "";
 
             // Attempt to resend the email
             hsceemail:SimplePublicObject newEmail = check hubspot->/.post({

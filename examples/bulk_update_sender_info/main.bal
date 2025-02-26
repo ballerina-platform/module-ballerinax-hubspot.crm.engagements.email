@@ -22,16 +22,16 @@ configurable string clientId = ?;
 configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
+hsceemail:OAuth2RefreshTokenGrantConfig auth = {
+    clientId,
+    clientSecret,
+    refreshToken,
+    credentialBearer: oauth2:POST_BODY_BEARER 
+};
+
+hsceemail:Client hubspot = check new ({auth});
+
 public function main() returns error? {
-
-    hsceemail:OAuth2RefreshTokenGrantConfig auth = {
-        clientId,
-        clientSecret,
-        refreshToken,
-        credentialBearer: oauth2:POST_BODY_BEARER 
-    };
-
-    hsceemail:Client hubspot = check new ({auth});
 
     // Get all emails
     string[] properties = ["hs_email_status"];
