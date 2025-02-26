@@ -1,5 +1,5 @@
 [package]
-org = "thakshakar"
+org = "wso2"
 name = "bulk_update_reply_to_email"
 version = "0.1.0"
 distribution = "2201.11.0"
