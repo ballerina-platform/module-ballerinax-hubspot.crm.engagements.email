@@ -24,7 +24,6 @@ configurable string refreshToken = ?;
 
 public function main() returns error? {
 
-    // Create the config for authorization to the API
     hsceemail:OAuth2RefreshTokenGrantConfig auth = {
         clientId,
         clientSecret,
@@ -47,7 +46,7 @@ public function main() returns error? {
     int totalScheduled = 0;
 
     foreach hsceemail:SimplePublicObject email in response.results {
-        string emailStatus = email?.properties["hs_email_status"] ?: "";
+        string? emailStatus = email?.properties["hs_email_status"];
 
         // Update counters based on email status
         match emailStatus {

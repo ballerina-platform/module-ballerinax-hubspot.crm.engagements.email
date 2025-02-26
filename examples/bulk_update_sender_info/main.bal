@@ -24,12 +24,11 @@ configurable string refreshToken = ?;
 
 public function main() returns error? {
 
-    // Create the config for authorization to the API
     hsceemail:OAuth2RefreshTokenGrantConfig auth = {
         clientId,
         clientSecret,
         refreshToken,
-        credentialBearer: oauth2:POST_BODY_BEARER // This line should be added to create auth object.
+        credentialBearer: oauth2:POST_BODY_BEARER 
     };
 
     hsceemail:Client hubspot = check new ({auth});
@@ -43,7 +42,7 @@ public function main() returns error? {
     final string newSenderLastName = "SenderLast";
 
     foreach hsceemail:SimplePublicObject email in response.results {
-        string emailStatus = email?.properties["hs_email_status"] ?: "";
+        string? emailStatus = email?.properties["hs_email_status"];
 
         // Apply the change only to SCHEDULED emails
         if emailStatus == "SCHEDULED" {
@@ -56,14 +55,13 @@ public function main() returns error? {
             }`;
 
             hsceemail:SimplePublicObject updated = check hubspot->/[email.id].patch({
-                "properties": {
+                properties: {
                     "hs_email_headers": updatedHeaderInfo
                 }
             });
 
             io:println(string `Updated email ${updated.id}'s sender address to ${newSenderEmailAddress}`);
-        }
-        else {
+        } else {
             io:println(string `Email ${email.id} is not SCHEDULED. Skipping...`);
         }
     }

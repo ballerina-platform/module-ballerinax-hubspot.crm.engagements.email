@@ -23,8 +23,7 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 
 public function main() returns error? {
-    
-    // Create the config for authorization to the API
+
     hsceemail:OAuth2RefreshTokenGrantConfig auth = {
         clientId,
         clientSecret,
@@ -38,29 +37,29 @@ public function main() returns error? {
     string[] properties = ["hs_email_status", "hs_email_text", "hs_email_subject", "hs_email_headers"];
 
     // Get all emails
-    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties=properties);
+    hsceemail:CollectionResponseSimplePublicObjectWithAssociationsForwardPaging response = check hubspot->/.get(properties = properties);
 
     foreach hsceemail:SimplePublicObject email in response.results {
-        string emailStatus = email?.properties["hs_email_status"] ?: "";
+        string? emailStatus = email?.properties["hs_email_status"];
 
         // Resend the email if it has failed or bounced
         if emailStatus == "FAILED" || emailStatus == "BOUNCED" {
-            string emailText = email?.properties["hs_email_text"] ?: "";
-            string emailSubject = email?.properties["hs_email_subject"] ?: "";
-            string emailHeaders = email?.properties["hs_email_headers"] ?: "";
+            string? emailText = email?.properties["hs_email_text"];
+            string? emailSubject = email?.properties["hs_email_subject"];
+            string? emailHeaders = email?.properties["hs_email_headers"];
 
             // Attempt to resend the email
             hsceemail:SimplePublicObject newEmail = check hubspot->/.post({
-                "associations": [
+                associations: [
                     {
-                    "types": [],
-                    "to": {
-                        "id": "84058501871"
-                    }
+                        types: [],
+                        to: {
+                            id: "84058501871"
+                        }
                     }
                 ],
-                "objectWriteTraceId": "string",
-                "properties": {
+                objectWriteTraceId: "string",
+                properties: {
                     "hs_email_status": "SENDING",
                     "hs_email_subject": emailSubject,
                     "hs_email_text": emailText,
@@ -69,8 +68,7 @@ public function main() returns error? {
             });
 
             io:println(string `Resent email with new ID: ${newEmail.id}, Subject: ${emailSubject}`);
-        }
-        else {
+        } else {
             io:println(string `Email ${email.id} is not FAILED or BOUNCED. Skipping...`);
         }
     }
