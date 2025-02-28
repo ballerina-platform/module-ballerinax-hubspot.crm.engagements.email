@@ -126,8 +126,8 @@ To use the `HubSpot CRM Engagements Email` connector in your Ballerina applicati
 Import the `hubspot.crm.engagements.email` module and `oauth2` module.
 
 ```ballerina
-import ballerinax/hubspot.crm.engagements.email as hsceemail;
 import ballerina/oauth2;
+import ballerinax/hubspot.crm.engagements.email as hsceemail;
 ```
 
 ### Step 2: Instantiate a new connector
