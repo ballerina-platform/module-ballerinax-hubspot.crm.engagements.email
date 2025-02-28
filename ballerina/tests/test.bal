@@ -33,9 +33,9 @@ final Client hubspot = check initClient();
 isolated function initClient() returns Client|error {
     if isLiveServer {
         OAuth2RefreshTokenGrantConfig auth = {
-            clientId: clientId,
-            clientSecret: clientSecret,
-            refreshToken: refreshToken,
+            clientId,
+            clientSecret,
+            refreshToken,
             credentialBearer: oauth2:POST_BODY_BEARER
         };
         return check new ({auth}, serviceUrl);
@@ -234,7 +234,6 @@ public function testArchiveBatchEp() returns error? {
     groups: ["live_tests", "mock_tests"],
     dependsOn: [testCreateBatchEp]
 }
-
 public function testSearchEmailsEp() returns error? {
     // Search for emails
     CollectionResponseWithTotalSimplePublicObjectForwardPaging response = check hubspot->/search.post({});
