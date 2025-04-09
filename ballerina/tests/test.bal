@@ -14,7 +14,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/http;
 import ballerina/oauth2;
 import ballerina/test;
 
@@ -125,10 +124,10 @@ public function testUpdateEmailEp() returns error? {
 }
 public function testDeleteEmailEp() returns error? {
     // Delete an email
-    http:Response response = check hubspot->/[testEmailId].delete();
+    error? response = check hubspot->/[testEmailId].delete();
 
     // Check if the response status is 204 (No Content)
-    test:assertEquals(response.statusCode, 204);
+    test:assertEquals(response, ());
 }
 
 @test:Config {
@@ -218,7 +217,7 @@ public function testUpdateBatchEp() returns error? {
     dependsOn: [testCreateBatchEp]
 }
 public function testArchiveBatchEp() returns error? {
-    http:Response response = check hubspot->/batch/archive.post({
+    error? response = check hubspot->/batch/archive.post({
         inputs: [
             {
                 id: testBatchId
@@ -227,7 +226,7 @@ public function testArchiveBatchEp() returns error? {
     });
 
     // Check if the response status is 204 (No Content)
-    test:assertEquals(response.statusCode, 204);
+    test:assertEquals(response, ());
 }
 
 @test:Config {
