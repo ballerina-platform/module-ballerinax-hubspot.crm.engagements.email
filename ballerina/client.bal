@@ -28,70 +28,34 @@ public isolated client class Client {
     # + serviceUrl - URL of the target service 
     # + return - An error if connector initialization failed 
     public isolated function init(ConnectionConfig config, string serviceUrl = "https://api.hubapi.com/crm/v3/objects/emails") returns error? {
-        http:ClientConfiguration httpClientConfig = {httpVersion: config.httpVersion, timeout: config.timeout, forwarded: config.forwarded, poolConfig: config.poolConfig, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, validation: config.validation};
-        do {
-            if config.http1Settings is ClientHttp1Settings {
-                ClientHttp1Settings settings = check config.http1Settings.ensureType(ClientHttp1Settings);
-                httpClientConfig.http1Settings = {...settings};
-            }
-            if config.http2Settings is http:ClientHttp2Settings {
-                httpClientConfig.http2Settings = check config.http2Settings.ensureType(http:ClientHttp2Settings);
-            }
-            if config.cache is http:CacheConfig {
-                httpClientConfig.cache = check config.cache.ensureType(http:CacheConfig);
-            }
-            if config.responseLimits is http:ResponseLimitConfigs {
-                httpClientConfig.responseLimits = check config.responseLimits.ensureType(http:ResponseLimitConfigs);
-            }
-            if config.secureSocket is http:ClientSecureSocket {
-                httpClientConfig.secureSocket = check config.secureSocket.ensureType(http:ClientSecureSocket);
-            }
-            if config.proxy is http:ProxyConfig {
-                httpClientConfig.proxy = check config.proxy.ensureType(http:ProxyConfig);
-            }
-        }
+        http:ClientConfiguration httpClientConfig = {httpVersion: config.httpVersion, http1Settings: config.http1Settings, http2Settings: config.http2Settings, timeout: config.timeout, forwarded: config.forwarded, followRedirects: config.followRedirects, poolConfig: config.poolConfig, cache: config.cache, compression: config.compression, circuitBreaker: config.circuitBreaker, retryConfig: config.retryConfig, cookieConfig: config.cookieConfig, responseLimits: config.responseLimits, secureSocket: config.secureSocket, proxy: config.proxy, socketConfig: config.socketConfig, validation: config.validation, laxDataBinding: config.laxDataBinding};
         if config.auth is ApiKeysConfig {
             self.apiKeyConfig = (<ApiKeysConfig>config.auth).cloneReadOnly();
         } else {
             httpClientConfig.auth = <http:BearerTokenConfig|OAuth2RefreshTokenGrantConfig>config.auth;
             self.apiKeyConfig = ();
         }
-        http:Client httpEp = check new (serviceUrl, httpClientConfig);
-        self.clientEp = httpEp;
-        return;
+        self.clientEp = check new (serviceUrl, httpClientConfig);
     }
 
-    # Move an Object identified by `{emailId}` to the recycling bin.
-    #
-    # + headers - Headers to be sent with the request 
-    # + return - No content 
-    resource isolated function delete [string emailId](map<string|string[]> headers = {}) returns http:Response|error {
-        string resourcePath = string `/${getEncodedUri(emailId)}`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
-        }
-        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
-        return self.clientEp->delete(resourcePath, headers = httpHeaders);
-    }
-
-    # Read a page of emails. Control what is returned via the `properties` query param.
+    # Read a batch of emails by internal ID, or unique property values
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
     # + return - successful operation 
-    resource isolated function get .(map<string|string[]> headers = {}, *GetCrmV3ObjectsEmailsGetPageQueries queries) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
-        string resourcePath = string `/`;
+    resource isolated function post batch/read(BatchReadInputSimplePublicObjectId payload, map<string|string[]> headers = {}, *PostCrmV3ObjectsEmailsBatchReadReadQueries queries) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
+        string resourcePath = string `/batch/read`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
-        map<Encoding> queryParamEncoding = {"properties": {style: FORM, explode: true}, "propertiesWithHistory": {style: FORM, explode: true}, "associations": {style: FORM, explode: true}};
-        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
+        resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
-        return self.clientEp->get(resourcePath, httpHeaders);
+        http:Request request = new;
+        json jsonBody = payload.toJson();
+        request.setPayload(jsonBody, "application/json");
+        return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
     # Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.
@@ -103,13 +67,28 @@ public isolated client class Client {
         string resourcePath = string `/${getEncodedUri(emailId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
         map<Encoding> queryParamEncoding = {"properties": {style: FORM, explode: true}, "propertiesWithHistory": {style: FORM, explode: true}, "associations": {style: FORM, explode: true}};
         resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Move an Object identified by `{emailId}` to the recycling bin.
+    #
+    # + headers - Headers to be sent with the request 
+    # + return - No content 
+    resource isolated function delete [string emailId](map<string|string[]> headers = {}) returns error? {
+        string resourcePath = string `/${getEncodedUri(emailId)}`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
     # Perform a partial update of an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param. Provided property values will be overwritten. Read-only and non-existent properties will be ignored. Properties values can be cleared by passing an empty string.
@@ -121,8 +100,8 @@ public isolated client class Client {
         string resourcePath = string `/${getEncodedUri(emailId)}`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
@@ -132,34 +111,16 @@ public isolated client class Client {
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
-    # Create a email with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard emails is provided.
-    #
-    # + headers - Headers to be sent with the request 
-    # + return - successful operation 
-    resource isolated function post .(SimplePublicObjectInputForCreate payload, map<string|string[]> headers = {}) returns SimplePublicObject|error {
-        string resourcePath = string `/`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
-        }
-        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
-        http:Request request = new;
-        json jsonBody = payload.toJson();
-        request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
     # Archive a batch of Objects identified by internal ID.
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
-    resource isolated function post batch/archive(BatchInputSimplePublicObjectId payload, map<string|string[]> headers = {}) returns http:Response|error {
+    resource isolated function post batch/archive(BatchInputSimplePublicObjectId payload, map<string|string[]> headers = {}) returns error? {
         string resourcePath = string `/batch/archive`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
@@ -176,29 +137,9 @@ public isolated client class Client {
         string resourcePath = string `/batch/create`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
-        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
-        http:Request request = new;
-        json jsonBody = payload.toJson();
-        request.setPayload(jsonBody, "application/json");
-        return self.clientEp->post(resourcePath, request, httpHeaders);
-    }
-
-    # Read a batch of emails by internal ID, or unique property values
-    #
-    # + headers - Headers to be sent with the request 
-    # + queries - Queries to be sent with the request 
-    # + return - successful operation 
-    resource isolated function post batch/read(BatchReadInputSimplePublicObjectId payload, map<string|string[]> headers = {}, *PostCrmV3ObjectsEmailsBatchReadReadQueries queries) returns BatchResponseSimplePublicObject|BatchResponseSimplePublicObjectWithErrors|error {
-        string resourcePath = string `/batch/read`;
-        map<anydata> headerValues = {...headers};
-        if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
-        }
-        resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
         json jsonBody = payload.toJson();
@@ -214,8 +155,44 @@ public isolated client class Client {
         string resourcePath = string `/batch/update`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
+        }
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        http:Request request = new;
+        json jsonBody = payload.toJson();
+        request.setPayload(jsonBody, "application/json");
+        return self.clientEp->post(resourcePath, request, httpHeaders);
+    }
+
+    # Read a page of emails. Control what is returned via the `properties` query param.
+    #
+    # + headers - Headers to be sent with the request 
+    # + queries - Queries to be sent with the request 
+    # + return - successful operation 
+    resource isolated function get .(map<string|string[]> headers = {}, *GetCrmV3ObjectsEmailsGetPageQueries queries) returns CollectionResponseSimplePublicObjectWithAssociationsForwardPaging|error {
+        string resourcePath = string `/`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
+        }
+        map<Encoding> queryParamEncoding = {"properties": {style: FORM, explode: true}, "propertiesWithHistory": {style: FORM, explode: true}, "associations": {style: FORM, explode: true}};
+        resourcePath = resourcePath + check getPathForQueryParam(queries, queryParamEncoding);
+        map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
+        return self.clientEp->get(resourcePath, httpHeaders);
+    }
+
+    # Create a email with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard emails is provided.
+    #
+    # + headers - Headers to be sent with the request 
+    # + return - successful operation 
+    resource isolated function post .(SimplePublicObjectInputForCreate payload, map<string|string[]> headers = {}) returns SimplePublicObject|error {
+        string resourcePath = string `/`;
+        map<anydata> headerValues = {...headers};
+        if self.apiKeyConfig is ApiKeysConfig {
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
@@ -232,8 +209,8 @@ public isolated client class Client {
         string resourcePath = string `/batch/upsert`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
@@ -250,8 +227,8 @@ public isolated client class Client {
         string resourcePath = string `/search`;
         map<anydata> headerValues = {...headers};
         if self.apiKeyConfig is ApiKeysConfig {
-            headerValues["private-app-legacy"] = self.apiKeyConfig?.private\-app\-legacy;
-            headerValues["private-app"] = self.apiKeyConfig?.private\-app;
+            headerValues["private-app-legacy"] = self.apiKeyConfig?.privateAppLegacy;
+            headerValues["private-app"] = self.apiKeyConfig?.privateApp;
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
