@@ -17,6 +17,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import ballerina/data.jsondata;
 import ballerina/http;
 
 public isolated client class Client {
@@ -53,7 +54,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -106,7 +107,7 @@ public isolated client class Client {
         resourcePath = resourcePath + check getPathForQueryParam(queries);
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
@@ -124,7 +125,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -142,7 +143,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -160,7 +161,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -196,7 +197,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -214,7 +215,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
@@ -232,7 +233,7 @@ public isolated client class Client {
         }
         map<string|string[]> httpHeaders = http:getHeaderMap(headerValues);
         http:Request request = new;
-        json jsonBody = payload.toJson();
+        json jsonBody = jsondata:toJson(payload);
         request.setPayload(jsonBody, "application/json");
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
