@@ -2,7 +2,14 @@
 
 [HubSpot](https://www.hubspot.com) is an AI-powered customer relationship management (CRM) platform. 
 
-The `ballerinax/hubspot.crm.engagements.email` package offers APIs to connect and interact with the [HubSpot CRM Engagements Email API](https://developers.hubspot.com/docs/reference/api/crm/engagements/email) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
+The HubSpot connector offers APIs to connect and interact with the [HubSpot CRM Engagements Email API](https://developers.hubspot.com/docs/reference/api/crm/engagements/email) endpoints, specifically based on the [HubSpot REST API](https://developers.hubspot.com/docs/reference/api/overview).
+
+### Key Features
+
+- Create, read, update, and delete email engagement records
+- Batch operations for bulk email management
+- Search emails with filtering support
+- Track email interactions with CRM contacts
 
 ## Setup guide
 
