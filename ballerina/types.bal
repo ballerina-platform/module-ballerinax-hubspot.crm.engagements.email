@@ -19,31 +19,31 @@
 
 import ballerina/http;
 
-# Standard error response object returned when an API request fails.
+# Standard error response object returned when an API request fails
 public type StandardError record {
-    # Optional sub-category providing additional error classification.
+    # Optional sub-category providing additional error classification
     record {} subCategory?;
-    # Contextual metadata map with string array values for the error.
+    # Contextual metadata map with string array values for the error
     record {|string[]...;|} context;
-    # Map of relevant links associated with the error response.
+    # Map of relevant links associated with the error response
     record {|string...;|} links;
-    # Unique identifier for the error instance.
+    # Unique identifier for the error instance
     string id?;
-    # High-level category classifying the type of error.
+    # High-level category classifying the type of error
     string category;
-    # Human-readable description of the error.
+    # Human-readable description of the error
     string message;
-    # List of detailed error objects describing individual failures.
+    # List of detailed error objects describing individual failures
     ErrorDetail[] errors;
-    # HTTP status string associated with the error response.
+    # HTTP status string associated with the error response
     string status;
 };
 
-# Paginated collection of associated object IDs returned in a response.
+# Paginated collection of associated object IDs returned in a response
 public type CollectionResponseAssociatedId record {
-    # Pagination metadata containing cursors for navigating to the next or previous page.
+    # Pagination metadata containing cursors for navigating to the next or previous page
     Paging paging?;
-    # Array of associated ID objects returned in the response.
+    # Array of associated ID objects returned in the response
     AssociatedId[] results;
 };
 
@@ -53,37 +53,37 @@ public type PostCrmV3ObjectsEmailsBatchReadReadQueries record {
     boolean archived = false;
 };
 
-# Defines association targets and relationship types for an object.
+# Defines association targets and relationship types for an object
 public type PublicAssociationsForObject record {
-    # List of association type specifications for the relationship.
+    # List of association type specifications for the relationship
     AssociationSpec[] types;
-    # Represents a public object identifier containing a unique ID string.
+    # Represents a public object identifier containing a unique ID string
     PublicObjectId to;
 };
 
-# Batch operation response containing results and processing status.
+# Batch operation response containing results and processing status
 public type BatchResponseSimplePublicObject record {
-    # Datetime when the batch operation completed.
+    # Datetime when the batch operation completed
     string completedAt;
-    # Datetime when the batch operation was requested.
+    # Datetime when the batch operation was requested
     string requestedAt?;
-    # Datetime when the batch operation began processing.
+    # Datetime when the batch operation began processing
     string startedAt;
-    # Map of relevant links related to the batch response.
+    # Map of relevant links related to the batch response
     record {|string...;|} links?;
-    # Array of email objects returned by the batch operation.
+    # Array of email objects returned by the batch operation
     SimplePublicObject[] results;
-    # Current status of the batch operation.
+    # Current status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# A group of filters combined to refine search query results.
+# A group of filters combined to refine search query results
 public type FilterGroup record {
-    # Array of filter conditions applied within the group.
+    # Array of filter conditions applied within the group
     Filter[] filters;
 };
 
-# Detailed information about a specific error encountered in a request.
+# Detailed information about a specific error encountered in a request
 public type ErrorDetail record {
     # A specific category that contains more specific detail about the error
     string subCategory?;
@@ -97,84 +97,84 @@ public type ErrorDetail record {
     string message;
 };
 
-# Pagination metadata for forward-only cursor-based navigation.
+# Pagination metadata for forward-only cursor-based navigation
 public type ForwardPaging record {
     NextPage next?;
 };
 
-# A minimal object representation containing only a unique identifier.
+# A minimal object representation containing only a unique identifier
 public type SimplePublicObjectId record {
-    # The unique identifier of the object.
+    # The unique identifier of the object
     string id;
 };
 
-# Batch upsert response containing results, errors, and operation status details.
+# Batch upsert response containing results, errors, and operation status details
 public type BatchResponseSimplePublicUpsertObjectWithErrors record {
-    # Timestamp when the batch operation completed.
+    # Timestamp when the batch operation completed
     string completedAt;
-    # Total number of errors encountered during the batch operation.
+    # Total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
-    # Timestamp when the batch operation was requested.
+    # Timestamp when the batch operation was requested
     string requestedAt?;
-    # Timestamp when the batch operation began processing.
+    # Timestamp when the batch operation began processing
     string startedAt;
-    # Map of relevant links associated with the batch response.
+    # Map of relevant links associated with the batch response
     record {|string...;|} links?;
-    # Array of successfully upserted email objects from the batch.
+    # Array of successfully upserted email objects from the batch
     SimplePublicUpsertObject[] results;
-    # Array of errors encountered for individual records in the batch.
+    # Array of errors encountered for individual records in the batch
     StandardError[] errors?;
-    # Current status of the batch upsert operation.
+    # Current status of the batch upsert operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# Input schema for batch reading email objects by their IDs.
+# Input schema for batch reading email objects by their IDs
 public type BatchReadInputSimplePublicObjectId record {
-    # List of properties to return along with their historical values.
+    # List of properties to return along with their historical values
     string[] propertiesWithHistory;
-    # The property name used as the unique identifier for batch lookup.
+    # The property name used as the unique identifier for batch lookup
     string idProperty?;
-    # Array of object IDs to retrieve in the batch read operation.
+    # Array of object IDs to retrieve in the batch read operation
     SimplePublicObjectId[] inputs;
-    # List of property names to include in the response for each object.
+    # List of property names to include in the response for each object
     string[] properties;
 };
 
-# Response object containing batch upsert results, status, and execution timestamps.
+# Response object containing batch upsert results, status, and execution timestamps
 public type BatchResponseSimplePublicUpsertObject record {
-    # Datetime when the batch upsert operation completed.
+    # Datetime when the batch upsert operation completed
     string completedAt;
-    # Datetime when the batch upsert operation was requested.
+    # Datetime when the batch upsert operation was requested
     string requestedAt?;
-    # Datetime when the batch upsert operation started processing.
+    # Datetime when the batch upsert operation started processing
     string startedAt;
-    # Map of related resource links associated with the batch response.
+    # Map of related resource links associated with the batch response
     record {|string...;|} links?;
-    # Array of upserted email objects returned from the batch operation.
+    # Array of upserted email objects returned from the batch operation
     SimplePublicUpsertObject[] results;
-    # Current processing status of the batch operation.
+    # Current processing status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# A property value paired with its source metadata and recorded timestamp.
+# A property value paired with its source metadata and recorded timestamp
 public type ValueWithTimestamp record {
-    # Identifier of the source that provided the value.
+    # Identifier of the source that provided the value
     string sourceId?;
-    # The type of source that set or updated the value.
+    # The type of source that set or updated the value
     string sourceType;
-    # Human-readable label describing the value's source.
+    # Human-readable label describing the value's source
     string sourceLabel?;
-    # ID of the user who last updated the value.
+    # ID of the user who last updated the value
     int:Signed32 updatedByUserId?;
-    # The actual property value recorded at the given timestamp.
+    # The actual property value recorded at the given timestamp
     string value;
-    # Datetime when the value was recorded or last updated.
+    # Datetime when the value was recorded or last updated
     string timestamp;
 };
 
-# Input schema containing a list of object IDs for a batch operation.
+# Input schema containing a list of object IDs for a batch operation
 public type BatchInputSimplePublicObjectId record {
-    # Array of object IDs to process in the batch request.
+    # Array of object IDs to process in the batch request
     SimplePublicObjectId[] inputs;
 };
 
@@ -191,44 +191,44 @@ public type OAuth2RefreshTokenGrantConfig record {|
     string refreshUrl = "https://api.hubapi.com/oauth/v1/token";
 |};
 
-# Input schema containing a list of objects to create or update in batch.
+# Input schema containing a list of objects to create or update in batch
 public type BatchInputSimplePublicObjectBatchInputUpsert record {
-    # Array of email objects to upsert in the batch operation.
+    # Array of email objects to upsert in the batch operation
     SimplePublicObjectBatchInputUpsert[] inputs;
 };
 
-# A paginated collection of email objects with a total count and forward paging cursor.
+# A paginated collection of email objects with a total count and forward paging cursor
 public type CollectionResponseWithTotalSimplePublicObjectForwardPaging record {
-    # Total number of email records matching the request.
+    # Total number of email records matching the request
     int:Signed32 total;
-    # Pagination metadata for forward-only cursor-based navigation.
+    # Pagination metadata for forward-only cursor-based navigation
     ForwardPaging paging?;
-    # Array of email objects returned in the current page.
+    # Array of email objects returned in the current page
     SimplePublicObject[] results;
 };
 
-# Represents a single email object with its properties, timestamps, and archival status.
+# Represents a single email object with its properties, timestamps, and archival status
 public type SimplePublicObject record {
-    # Timestamp when the email record was created.
+    # Timestamp when the email record was created
     string createdAt;
-    # Indicates whether the email record is archived.
+    # Indicates whether the email record is archived
     boolean archived?;
-    # Timestamp when the email record was archived.
+    # Timestamp when the email record was archived
     string archivedAt?;
-    # Map of email properties to their historical values with timestamps.
+    # Map of email properties to their historical values with timestamps
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
-    # Unique identifier of the email record.
+    # Unique identifier of the email record
     string id;
-    # Key-value map of email properties and their current values.
+    # Key-value map of email properties and their current values
     record {|string?...;|} properties;
-    # Timestamp when the email record was last updated.
+    # Timestamp when the email record was last updated
     string updatedAt;
 };
 
-# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint.
+# Provides a set of configurations for controlling the behaviours when communicating with a remote HTTP endpoint
 @display {label: "Connection Config"}
 public type ConnectionConfig record {|
-    # Provides Auth configurations needed when communicating with a remote HTTP endpoint.
+    # Provides Auth configurations needed when communicating with a remote HTTP endpoint
     http:BearerTokenConfig|OAuth2RefreshTokenGrantConfig|ApiKeysConfig auth;
     # The HTTP version understood by the client
     http:HttpVersion httpVersion = http:HTTP_2_0;
@@ -265,76 +265,76 @@ public type ConnectionConfig record {|
     # Enables the inbound payload validation functionality which provided by the constraint package. Enabled by default
     boolean validation = true;
     # Enables relaxed data binding on the client side. When enabled, `nil` values are treated as optional, 
-    # and absent fields are handled as `nilable` types. Enabled by default.
+    # and absent fields are handled as `nilable` types. Enabled by default
     boolean laxDataBinding = true;
 |};
 
-# Represents a public object identifier containing a unique ID string.
+# Represents a public object identifier containing a unique ID string
 public type PublicObjectId record {
-    # Unique identifier of the public object.
+    # Unique identifier of the public object
     string id;
 };
 
-# Pagination metadata containing cursors for navigating to the next or previous page.
+# Pagination metadata containing cursors for navigating to the next or previous page
 public type Paging record {
     NextPage next?;
-    # Pagination cursor details for navigating to the previous page of results.
+    # Pagination cursor details for navigating to the previous page of results
     PreviousPage prev?;
 };
 
-# Request payload for searching email objects with filters, sorting, and pagination.
+# Request payload for searching email objects with filters, sorting, and pagination
 public type PublicObjectSearchRequest record {
-    # Full-text search query string to filter email results.
+    # Full-text search query string to filter email results
     string query?;
-    # Maximum number of results to return per page.
+    # Maximum number of results to return per page
     int:Signed32 'limit?;
-    # Cursor token for retrieving the next page of results.
+    # Cursor token for retrieving the next page of results
     string after?;
-    # List of property names to sort results by.
+    # List of property names to sort results by
     string[] sorts?;
-    # List of property names to include in the response.
+    # List of property names to include in the response
     string[] properties?;
-    # Groups of filters used to narrow search results.
+    # Groups of filters used to narrow search results
     FilterGroup[] filterGroups?;
 };
 
-# Input payload for upserting a single email object in a batch operation, including its ID and properties.
+# Input payload for upserting a single email object in a batch operation, including its ID and properties
 public type SimplePublicObjectBatchInputUpsert record {
-    # The property name used as the unique identifier for the upsert.
+    # The property name used as the unique identifier for the upsert
     string idProperty?;
-    # Trace ID for tracking the object write operation.
+    # Trace ID for tracking the object write operation
     string objectWriteTraceId?;
-    # The unique identifier of the email object to upsert.
+    # The unique identifier of the email object to upsert
     string id;
-    # Key-value map of email properties to create or update.
+    # Key-value map of email properties to create or update
     record {|string...;|} properties;
 };
 
-# Batch operation response containing email results, processing status, timestamps, and any errors encountered.
+# Batch operation response containing email results, processing status, timestamps, and any errors encountered
 public type BatchResponseSimplePublicObjectWithErrors record {
-    # Timestamp indicating when the batch operation completed.
+    # Timestamp indicating when the batch operation completed
     string completedAt;
-    # Total number of errors encountered during the batch operation.
+    # Total number of errors encountered during the batch operation
     int:Signed32 numErrors?;
-    # Timestamp indicating when the batch operation was requested.
+    # Timestamp indicating when the batch operation was requested
     string requestedAt?;
-    # Timestamp indicating when the batch operation started processing.
+    # Timestamp indicating when the batch operation started processing
     string startedAt;
-    # Map of related link names to their associated URLs.
+    # Map of related link names to their associated URLs
     record {|string...;|} links?;
-    # List of successfully processed email objects from the batch.
+    # List of successfully processed email objects from the batch
     SimplePublicObject[] results;
-    # List of errors encountered for individual records in the batch.
+    # List of errors encountered for individual records in the batch
     StandardError[] errors?;
-    # Current processing status of the batch operation.
+    # Current processing status of the batch operation
     "PENDING"|"PROCESSING"|"CANCELED"|"COMPLETE" status;
 };
 
-# Request body schema for creating or updating an email object with its properties.
+# Request body schema for creating or updating an email object with its properties
 public type SimplePublicObjectInput record {
-    # Trace identifier for auditing the write operation on this object.
+    # Trace identifier for auditing the write operation on this object
     string objectWriteTraceId?;
-    # Key-value map of email property names and their corresponding values.
+    # Key-value map of email property names and their corresponding values
     record {|string...;|} properties;
 };
 
@@ -352,93 +352,93 @@ public type GetCrmV3ObjectsEmailsEmailIdGetByIdQueries record {
     string[] properties?;
 };
 
-# Paginated collection of email objects, each including their associated records.
+# Paginated collection of email objects, each including their associated records
 public type CollectionResponseSimplePublicObjectWithAssociationsForwardPaging record {
-    # Pagination metadata for forward-only cursor-based navigation.
+    # Pagination metadata for forward-only cursor-based navigation
     ForwardPaging paging?;
-    # Array of email objects returned in the current page of results.
+    # Array of email objects returned in the current page of results
     SimplePublicObjectWithAssociations[] results;
 };
 
-# Defines the category and type of an association between two CRM objects.
+# Defines the category and type of an association between two CRM objects
 public type AssociationSpec record {
-    # Category of the association: HUBSPOT_DEFINED, USER_DEFINED, or INTEGRATOR_DEFINED.
+    # Category of the association: HUBSPOT_DEFINED, USER_DEFINED, or INTEGRATOR_DEFINED
     "HUBSPOT_DEFINED"|"USER_DEFINED"|"INTEGRATOR_DEFINED" associationCategory;
-    # Numeric identifier specifying the type of association.
+    # Numeric identifier specifying the type of association
     int:Signed32 associationTypeId;
 };
 
-# Represents an email object with its properties, metadata, and associated CRM records.
+# Represents an email object with its properties, metadata, and associated CRM records
 public type SimplePublicObjectWithAssociations record {
-    # Map of associated CRM objects grouped by association type.
+    # Map of associated CRM objects grouped by association type
     record {|CollectionResponseAssociatedId...;|} associations?;
-    # Timestamp indicating when the email record was created.
+    # Timestamp indicating when the email record was created
     string createdAt;
-    # Indicates whether the email record has been archived.
+    # Indicates whether the email record has been archived
     boolean archived?;
-    # Timestamp indicating when the email record was archived.
+    # Timestamp indicating when the email record was archived
     string archivedAt?;
-    # Map of property names to their historical values with timestamps.
+    # Map of property names to their historical values with timestamps
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
-    # Unique identifier of the email record.
+    # Unique identifier of the email record
     string id;
-    # Key-value map of the email record's current property values.
+    # Key-value map of the email record's current property values
     record {|string?...;|} properties;
-    # Timestamp indicating when the email record was last modified.
+    # Timestamp indicating when the email record was last modified
     string updatedAt;
 };
 
-# Defines a filter condition used to query CRM objects by property and operator.
+# Defines a filter condition used to query CRM objects by property and operator
 public type Filter record {
-    # Upper bound value used with the BETWEEN operator for range filtering.
+    # Upper bound value used with the BETWEEN operator for range filtering
     string highValue?;
-    # The name of the email property to filter on.
+    # The name of the email property to filter on
     string propertyName;
-    # A list of values to match against for the filter.
+    # A list of values to match against for the filter
     string[] values?;
-    # A single value to match against for the filter.
+    # A single value to match against for the filter
     string value?;
-    # The comparison operator used to evaluate the filter condition.
+    # The comparison operator used to evaluate the filter condition
     "EQ"|"NEQ"|"LT"|"LTE"|"GT"|"GTE"|"BETWEEN"|"IN"|"NOT_IN"|"HAS_PROPERTY"|"NOT_HAS_PROPERTY"|"CONTAINS_TOKEN"|"NOT_CONTAINS_TOKEN" operator;
 };
 
-# Pagination cursor details for navigating to the previous page of results.
+# Pagination cursor details for navigating to the previous page of results
 public type PreviousPage record {
-    # The cursor token representing the start of the previous page.
+    # The cursor token representing the start of the previous page
     string before;
-    # A direct URL link to the previous page of results.
+    # A direct URL link to the previous page of results
     string link?;
 };
 
-# Request body containing a batch of email objects to create.
+# Request body containing a batch of email objects to create
 public type BatchInputSimplePublicObjectInputForCreate record {
-    # An array of email objects to be created in batch.
+    # An array of email objects to be created in batch
     SimplePublicObjectInputForCreate[] inputs;
 };
 
-# Request body containing a batch of email objects to update.
+# Request body containing a batch of email objects to update
 public type BatchInputSimplePublicObjectBatchInput record {
-    # An array of email objects to be updated in batch.
+    # An array of email objects to be updated in batch
     SimplePublicObjectBatchInput[] inputs;
 };
 
-# Represents an email object returned after an upsert operation, indicating whether it was newly created.
+# Represents an email object returned after an upsert operation, indicating whether it was newly created
 public type SimplePublicUpsertObject record {
-    # The timestamp when the email object was created.
+    # The timestamp when the email object was created
     string createdAt;
-    # Indicates whether the email object is archived.
+    # Indicates whether the email object is archived
     boolean archived?;
-    # The timestamp when the email object was archived.
+    # The timestamp when the email object was archived
     string archivedAt?;
-    # Indicates whether the object was newly created by the upsert.
+    # Indicates whether the object was newly created by the upsert
     boolean 'new;
-    # A map of property values including their historical change records.
+    # A map of property values including their historical change records
     record {|ValueWithTimestamp[]...;|} propertiesWithHistory?;
-    # The unique identifier of the email object.
+    # The unique identifier of the email object
     string id;
-    # A map of the email object's property names to their current values.
+    # A map of the email object's property names to their current values
     record {|string...;|} properties;
-    # The timestamp when the email object was last updated.
+    # The timestamp when the email object was last updated
     string updatedAt;
 };
 
@@ -475,7 +475,7 @@ public type AssociatedId record {
     string 'type;
 };
 
-# Provides API key configurations needed when communicating with a remote HTTP endpoint.
+# Provides API key configurations needed when communicating with a remote HTTP endpoint
 public type ApiKeysConfig record {|
     string privateAppLegacy;
     string privateApp;

@@ -23,7 +23,7 @@ import ballerina/http;
 public isolated client class Client {
     final http:Client clientEp;
     final readonly & ApiKeysConfig? apiKeyConfig;
-    # Gets invoked to initialize the `connector`.
+    # Gets invoked to initialize the `connector`
     #
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
@@ -59,7 +59,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.
+    # Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -77,7 +77,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Move an email to the recycling bin.
+    # Move an email to the recycling bin
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
@@ -92,7 +92,7 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Partially update an email by ID.
+    # Partially update an email by ID
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -112,7 +112,7 @@ public isolated client class Client {
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
-    # Archive a batch of emails by ID.
+    # Archive a batch of emails by ID
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
@@ -130,7 +130,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create a batch of emails.
+    # Create a batch of emails
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -148,7 +148,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Update a batch of emails by ID.
+    # Update a batch of emails by ID
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -166,7 +166,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Retrieve a page of emails.
+    # Retrieve a page of emails
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -184,7 +184,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Create a new email object.
+    # Create a new email object
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -202,7 +202,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Upsert a batch of emails.
+    # Upsert a batch of emails
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -220,7 +220,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Search for emails by filter.
+    # Search for emails by filter
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
