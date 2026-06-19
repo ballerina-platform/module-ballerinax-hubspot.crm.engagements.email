@@ -23,7 +23,7 @@ import ballerina/http;
 public isolated client class Client {
     final http:Client clientEp;
     final readonly & ApiKeysConfig? apiKeyConfig;
-    # Gets invoked to initialize the `connector`.
+    # Gets invoked to initialize the `connector`
     #
     # + config - The configurations to be used when initializing the `connector` 
     # + serviceUrl - URL of the target service 
@@ -59,7 +59,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param.
+    # Read an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param.  Control what is returned via the `properties` query param
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -77,7 +77,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Move an Object identified by `{emailId}` to the recycling bin.
+    # Move an email to the recycling bin
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
@@ -92,7 +92,7 @@ public isolated client class Client {
         return self.clientEp->delete(resourcePath, headers = httpHeaders);
     }
 
-    # Perform a partial update of an Object identified by `{emailId}`. `{emailId}` refers to the internal object ID by default, or optionally any unique property value as specified by the `idProperty` query param. Provided property values will be overwritten. Read-only and non-existent properties will be ignored. Properties values can be cleared by passing an empty string.
+    # Partially update an email by ID
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -112,7 +112,7 @@ public isolated client class Client {
         return self.clientEp->patch(resourcePath, request, httpHeaders);
     }
 
-    # Archive a batch of Objects identified by internal ID.
+    # Archive a batch of emails by ID
     #
     # + headers - Headers to be sent with the request 
     # + return - No content 
@@ -130,7 +130,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create a batch of Objects with the given properties and return a copy of the objects, including the IDs.
+    # Create a batch of emails
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -148,7 +148,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Update a batch of Objects identified by internal ID.
+    # Update a batch of emails by ID
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -166,7 +166,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Read a page of emails. Control what is returned via the `properties` query param.
+    # Retrieve a page of emails
     #
     # + headers - Headers to be sent with the request 
     # + queries - Queries to be sent with the request 
@@ -184,7 +184,7 @@ public isolated client class Client {
         return self.clientEp->get(resourcePath, httpHeaders);
     }
 
-    # Create a email with the given properties and return a copy of the object, including the ID. Documentation and examples for creating standard emails is provided.
+    # Create a new email object
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -202,7 +202,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Create or update a batch of Objects identified by unique property values. If an object with a matching unique property value exists, it will be updated. Otherwise, a new object will be created.
+    # Upsert a batch of emails
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
@@ -220,7 +220,7 @@ public isolated client class Client {
         return self.clientEp->post(resourcePath, request, httpHeaders);
     }
 
-    # Search for emails in your HubSpot account. Use the `filterGroups` parameter to specify the properties and values to filter for.
+    # Search for emails by filter
     #
     # + headers - Headers to be sent with the request 
     # + return - successful operation 
